@@ -64,6 +64,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    bio = models.TextField(blank=True, default="")
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+
 
     groups = models.ManyToManyField(
         Group,
