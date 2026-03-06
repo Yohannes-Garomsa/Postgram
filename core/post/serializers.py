@@ -10,18 +10,18 @@ class PostSerializer(AbstractSerializer):
     liked=serializers.SerializerMethodField()
     like_count=serializers.SerializerMethodField()
     
-    def validated_author(self, value):
+    def validate_author(self, value):
         if self.context["request"].user != value:
             raise ValidationError("You can't create a post for another user")
         return value
     
     def get_liked(self,instance):
-        request=self.context.get('requests',None)
+        request=self.context.get('request',None)
         if request is None or request.user.is_anonymous:
             return False
         return request.user.has_liked(instance)
     
-    def get_likes_count(self,instance):
+    def get_like_count(self,instance):
         return instance.liked_by.count()
     class Meta:
         model = Post

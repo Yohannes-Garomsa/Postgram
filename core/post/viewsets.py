@@ -1,7 +1,7 @@
-from argparse import Action
-
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.decorators import action
 from core.abstract.viewsets import AbstractViewSet
 from core.post.serializers import PostSerializer
 from core.post.models import Post
@@ -27,7 +27,7 @@ class PostViewSet(AbstractViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
-    @Action(methods=['post'],detail=True)
+    @action(methods=['post'], detail=True)
     def like(self,request,*args,**kwargs):
         post=self.get_object()
         user=self.request.user
@@ -36,7 +36,7 @@ class PostViewSet(AbstractViewSet):
         serializer=self.serializer_class(post)
         return Response(serializer.data,status=status.HTTP_200_OK)
     
-    @Action(methods=['post'],detail=True)
+    @action(methods=['post'], detail=True)
     def remove_like(self,request,*args,**kwargs):
         post=self.get_object()
         user=self.request.user
