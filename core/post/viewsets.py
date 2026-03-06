@@ -2,6 +2,7 @@ from rest_framework.permissions import IsAuthenticated
 from core.abstract.viewsets import AbstractViewSet
 from core.post.serializers import PostSerializer
 from core.post.models import Post
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 # Create your views here.
 
@@ -24,3 +25,14 @@ class PostViewSet(AbstractViewSet):
         self.perform_create(serializer)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
        
+class UserPermission(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_anonymous:
+            return request.method in SAFE_METHODS
+        
+        
+        if view.basename in ['post']:
+            return bool(request.user and request.user.is_authenticated)
+        
+        return False
+    
