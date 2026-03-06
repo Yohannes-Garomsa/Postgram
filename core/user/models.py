@@ -90,6 +90,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.email}"
+    
+    def like(self,post):
+        return self.posts_liked.add(post)
+    
+    def remove_like(self,post):
+        return self.posts_liked.remove(post)
+    
+    def has_liked(self,post):
+        return self.posts_liked.filter(pk=post.pk).exists()
 
     @property
     def name(self):
