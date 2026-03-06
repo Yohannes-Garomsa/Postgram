@@ -7,6 +7,9 @@ class UserPermission(BasePermission):
             return request.method in SAFE_METHODS
 
         if view.basename in ["post", "comment"]:
-            return bool(request.user and request.user.is_authenticated)
+            if request.method in ["DELETE"]:
+                  return bool(request.user.is_superuser and request.user in [obj.author,obj.post.author])
+        
 
-        return False
+            return bool(request.user.is_superuser and request.user.is_authenticated)
+    
