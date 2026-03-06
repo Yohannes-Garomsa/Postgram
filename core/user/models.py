@@ -15,12 +15,12 @@ from django.http import Http404
 
 
 class UserManager(BaseUserManager):
-    def get_object_by_public_id(self,public_id):
-        try:
-            instance=self.get(public_id=public_id)
-            return instance
-        except  (ObjectDoesNotExist, ValueError, TypeError):
-            raise Http404
+    # def get_object_by_public_id(self,public_id):
+    #     try:
+    #         instance=self.get(public_id=public_id)
+    #         return instance
+    #     except  (ObjectDoesNotExist, ValueError, TypeError):
+    #         raise Http404
     
     def create_user(self, username, email, password=None, **kwargs):
         """Create and return a User with email, username and password."""
@@ -55,15 +55,15 @@ class UserManager(BaseUserManager):
 
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
-    public_id = models.UUIDField(db_index=True, unique=True, default=uuid.uuid4, editable=False)
+    # public_id = models.UUIDField(db_index=True, unique=True, default=uuid.uuid4, editable=False)
     username = models.CharField(db_index=True, max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(db_index=True, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
     bio = models.TextField(blank=True, default="")
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
 
