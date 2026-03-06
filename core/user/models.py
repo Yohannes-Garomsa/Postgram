@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # updated = models.DateTimeField(auto_now=True)
     bio = models.TextField(blank=True, default="")
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
-
+    posts_liked = models.ManyToManyField("core_post.Post", related_name="liked_by")
 
     groups = models.ManyToManyField(
         Group,
@@ -94,6 +94,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
+    
 
 
 
