@@ -1,6 +1,7 @@
 Django==4.0
 psycopg2-binary==2.9.9
 djangorestframework==3.13.1
-django-filter==21.1
+django-filter==23.5
 pillow==12.1.1
 djangorestframework-simplejwt
+drf-nested-routers

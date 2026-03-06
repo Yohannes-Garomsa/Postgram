@@ -2,10 +2,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.decorators import action
+from core.auth.permissions import UserPermission
 from core.abstract.viewsets import AbstractViewSet
 from core.post.serializers import PostSerializer
 from core.post.models import Post
-from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 # Create your views here.
 
@@ -44,14 +44,3 @@ class PostViewSet(AbstractViewSet):
         user.remove_like(post)
         serializer=self.serializer_class(post)
         return Response(serializer.data,status=status.HTTP_200_OK)
-class UserPermission(BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if request.user.is_anonymous:
-            return request.method in SAFE_METHODS
-        
-        
-        if view.basename in ['post']:
-            return bool(request.user and request.user.is_authenticated)
-        
-        return False
-    
