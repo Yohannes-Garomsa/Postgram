@@ -1,6 +1,6 @@
 import pytest
 from core.fixtures.user import user
-from core.fixtures.post import post
+from core.post.models import Post
 
 @pytest.fixture
 def post(db,user):
